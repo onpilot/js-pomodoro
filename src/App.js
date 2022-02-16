@@ -1,6 +1,9 @@
+import { FunctionSet } from './FunctionSet';
 import './App.css';
 
 function App() {
+  const { breakLen, sessionLen, decrease, increase, reset } = FunctionSet();
+
   return (
     <div className="app">
       <div className="app-title">25+5 aka Pomodoro Clock</div>
@@ -11,9 +14,13 @@ function App() {
               Break Length
             </label>
             <div className="box">
-              <button id="break-increment">-</button>
-              <div id="break-length">{5}</div>
-              <button id="break-increment">+</button>
+              <button id="break-decrement" onClick={() => decrease('break')}>
+                -
+              </button>
+              <div id="break-length">{breakLen}</div>
+              <button id="break-increment" onClick={() => increase('break')}>
+                +
+              </button>
             </div>
           </div>
           <div>
@@ -21,9 +28,13 @@ function App() {
               Session Length
             </label>
             <div className="box">
-              <button id="session-increment">-</button>
-              <div id="session-length">{25}</div>
-              <button id="session-increment">+</button>
+              <button id="session-decrement" onClick={() => decrease()}>
+                -
+              </button>
+              <div id="session-length">{sessionLen}</div>
+              <button id="session-increment" onClick={() => increase()}>
+                +
+              </button>
             </div>
           </div>
         </div>
@@ -34,7 +45,9 @@ function App() {
           <div id="time-left">{'mm:ss'}</div>
           <div>
             <button id="start_stop">start/pause</button>
-            <button id="reset">reset</button>
+            <button id="reset" onClick={() => reset()}>
+              reset
+            </button>
           </div>
         </div>
       </div>
