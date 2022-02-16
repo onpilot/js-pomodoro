@@ -1,0 +1,41 @@
+html,
+body {
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  width: 100%;
+  margin-top: 80px;
+  outline: 1px solid black;
+}
+.app-title {
+  text-align: center;
+  font-size: 2rem;
+  outline: 1px solid black;
+}
+
+.app-main {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+.main-top {
+  display: flex;
+  justify-content: center;
+  outline: 1px solid red;
+}
+.main-bottom {
+  outline: 1px solid red;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+  padding: 10px;
+  outline: 1px solid yellow;
+}
