@@ -1,8 +1,18 @@
-import { FunctionSet } from './FunctionSet';
+import { FunctionSet } from './FunctionSet/FunctionSet';
+import { getMinutesSeconds } from './FunctionSet/getMinutesSeconds';
 import './App.css';
 
 function App() {
-  const { breakLen, sessionLen, decrease, increase, reset } = FunctionSet();
+  const {
+    current,
+    breakLen,
+    sessionLen,
+    timeLeft,
+    decrease,
+    increase,
+    start_pause,
+    reset,
+  } = FunctionSet();
 
   return (
     <div className="app">
@@ -40,11 +50,13 @@ function App() {
         </div>
         <div className="main-bottom">
           <label htmlFor="time-left" id="timer-label">
-            Session
+            {current}
           </label>
-          <div id="time-left">{'mm:ss'}</div>
+          <div id="time-left">{getMinutesSeconds(timeLeft)}</div>
           <div>
-            <button id="start_stop">start/pause</button>
+            <button id="start_stop" onClick={() => start_pause()}>
+              start/pause
+            </button>
             <button id="reset" onClick={() => reset()}>
               reset
             </button>
