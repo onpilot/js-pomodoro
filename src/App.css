@@ -32,6 +32,9 @@ body {
   outline: 1px solid red;
 }
 
+.timerset {
+  outline: 1px solid yellow;
+}
 .box {
   display: flex;
   justify-content: center;

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 export const FunctionSet = () => {
-  const initCurrent = 'session',
-    initBreakLen = 0.05, // 5
-    initSessionLen = 4 / 60; // 25
+  const initCurrent = 'session';
+  const initBreakLen = 5; // 0.05
+  const initSessionLen = 25; // 4 / 60
+
   const [current, setCurrent] = useState(initCurrent);
   const [breakLen, setBreakLen] = useState(initBreakLen);
   const [sessionLen, setSessionLen] = useState(initSessionLen);
@@ -64,6 +65,7 @@ export const FunctionSet = () => {
       setStarted(false);
       // beep sound
       current === 'session' ? setCurrent('break') : setCurrent('session');
+      // How to automatically continue timer on next break/session?
       // setTimer();
     }
   };
