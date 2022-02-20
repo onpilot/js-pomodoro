@@ -1,64 +1,63 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const FunctionSet = () => {
   const initCurrent = 'session';
-  const initBreakLen = 5; // 0.05
-  const initSessionLen = 25; // 4 / 60
-  const initSessionTimeLeft = initSessionLen * 60,
-    initBreakTimeLeft = initBreakLen * 60;
+  const initBreakLen = 5;
+  const initSessionLen = 25;
   const [current, setCurrent] = useState(initCurrent);
   const [breakLen, setBreakLen] = useState(initBreakLen);
   const [sessionLen, setSessionLen] = useState(initSessionLen);
-  const [timeLeft, setTimeLeft] = useState(initSessionTimeLeft);
+  const [timeLeft, setTimeLeft] = useState(initSessionLen * 60);
   const [started, setStarted] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
 
-  const decrease = (s) => {
-    if (s === 'break' && started === false) {
-      setBreakLen((prevState) => {
-        return prevState > 1 ? prevState - 1 : prevState;
-      });
-      if (current === s) {
-        decreaseTimeLeft();
+  // Business logic
+  const increase = (prevValue) => (prevValue < 60 ? prevValue + 1 : prevValue);
+  const decrease = (prevValue) => (prevValue > 1 ? prevValue - 1 : prevValue);
+  const increase60 = (prevValue) => (prevValue < 3600 ? prevValue + 60 : prevValue);
+  const decrease60 = (prevValue) => (prevValue > 60 ? prevValue - 60 : prevValue);
+
+  // Implementation/framework logic
+  const increaseLen = (s) => {
+    if (!started) {
+      if (s === 'break') {
+        setBreakLen((prevState) => increase(prevState));
+        if (current === s) {
+          setTimeLeft((prevState) => increase60(prevState));
+        }
       }
-    }
-    if (s === 'session' && started === false) {
-      setSessionLen((prevState) => {
-        return prevState > 1 ? prevState - 1 : prevState;
-      });
-      if (current === s) {
-        decreaseTimeLeft();
-      }
-    }
-  };
-  const increase = (s) => {
-    if (s === 'break' && started === false) {
-      setBreakLen((prevState) => prevState + 1);
-      if (current === s) {
-        increaseTimeLeft();
-      }
-    }
-    if (s === 'session' && started === false) {
-      setSessionLen((prevState) => prevState + 1);
-      if (current === s) {
-        increaseTimeLeft();
+      if (s === 'session') {
+        setSessionLen((prevState) => increase(prevState));
+        if (current === s) {
+          setTimeLeft((prevState) => increase60(prevState));
+        }
       }
     }
   };
-  const decreaseTimeLeft = () => {
-    setTimeLeft((prevState) => {
-      return prevState > 60 ? prevState - 60 : prevState;
-    });
-  };
-  const increaseTimeLeft = () => {
-    setTimeLeft((prevState) => prevState + 60);
+  const decreaseLen = (s) => {
+    if (!started) {
+      if (s === 'break') {
+        setBreakLen((prevState) => decrease(prevState));
+        if (current === s) {
+          setTimeLeft((prevState) => decrease60(prevState));
+        }
+      }
+      if (s === 'session') {
+        setSessionLen((prevState) => decrease(prevState));
+        if (current === s) {
+          setTimeLeft((prevState) => decrease60(prevState));
+        }
+      }
+    }
   };
 
   const reset = () => {
     setCurrent(initCurrent);
     setBreakLen(initBreakLen);
     setSessionLen(initSessionLen);
-    setTimeLeft(initSessionTimeLeft);
+    setTimeLeft(initSessionLen * 60);
+    beep().pause();
+    beep().currentTime = 0;
     setStarted(false);
     clearInterval(intervalId);
     setIntervalId(null);
@@ -66,10 +65,6 @@ export const FunctionSet = () => {
   };
 
   const start_pause = () => {
-    setTimer();
-  };
-
-  const setTimer = () => {
     if (!started) {
       setStarted(true);
       const timer = setInterval(() => {
@@ -85,36 +80,38 @@ export const FunctionSet = () => {
 
   let time = timeLeft;
   const countdown = (timer) => {
-    if (--time > 0) {
-      setTimeLeft((prevState) => prevState - 1);
-    }
-    if (time === 0) {
-      clearInterval(timer);
-      // console.log('stop');
+    setTimeLeft((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+    if (--time === 0) {
       setStarted(false);
+      clearInterval(timer);
+
       // beep sound
-      current === 'session' ? setCurrent('break') : setCurrent('session');
-      current === 'session' ? setTimeLeft(initBreakTimeLeft) : setTimeLeft(initSessionTimeLeft);
-      // How to automatically continue timer on next break/session?
-      // setTimer();
+      beep().play();
+
+      // Automatically continue timer to the next break/session
+      // current === 'session' ? setCurrent('break') : setCurrent('session');
+      // setTimeout(() => {
+      //   current === 'session' ? setTimeLeft(breakLen * 60) : setTimeLeft(sessionLen * 60);
+      //   current === 'session' ? (time = breakLen * 60) : (time = sessionLen * 60);
+      //   start_pause();
+      // }, 2000);
     }
   };
-  console.log(current, started, time);
-
-  // useEffect(() => {
-  //   current === 'session'
-  //     ? setTimeLeft(sessionLen * 60)
-  //     : setTimeLeft(breakLen * 60);
-  // }, [current, sessionLen, breakLen]);
+  console.log(current, started, timeLeft);
 
   return {
     current,
     breakLen,
     sessionLen,
     timeLeft,
-    decrease,
-    increase,
+    decreaseLen,
+    increaseLen,
     start_pause,
     reset,
   };
+};
+
+const beep = () => {
+  const beepId = document.querySelector('#beep');
+  return beepId;
 };
