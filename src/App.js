@@ -8,7 +8,7 @@ import { getMinutesSeconds } from './functions/getMinutesSeconds';
 import './App.css';
 
 function App() {
-  const { current, breakLen, sessionLen, timeLeft, decrease, increase, start_pause, reset } =
+  const { current, breakLen, sessionLen, timeLeft, decreaseLen, increaseLen, start_pause, reset } =
     FunctionSet();
 
   return (
@@ -21,11 +21,11 @@ function App() {
               break length
             </Label>
             <Box className="box">
-              <Button id="break-decrement" onClick={() => decrease('break')}>
+              <Button id="break-decrement" onClick={() => decreaseLen('break')}>
                 -
               </Button>
               <Display id="break-length">{breakLen}</Display>
-              <Button id="break-increment" onClick={() => increase('break')}>
+              <Button id="break-increment" onClick={() => increaseLen('break')}>
                 +
               </Button>
             </Box>
@@ -35,11 +35,11 @@ function App() {
               session length
             </Label>
             <Box className="box">
-              <Button id="session-decrement" onClick={() => decrease('session')}>
+              <Button id="session-decrement" onClick={() => decreaseLen('session')}>
                 -
               </Button>
               <Display id="session-length">{sessionLen}</Display>
-              <Button id="session-increment" onClick={() => increase('session')}>
+              <Button id="session-increment" onClick={() => increaseLen('session')}>
                 +
               </Button>
             </Box>
@@ -58,6 +58,10 @@ function App() {
               reset
             </Button>
           </Box>
+          <audio
+            id="beep"
+            src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+          />
         </div>
       </div>
     </div>
