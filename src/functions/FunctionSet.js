@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export const FunctionSet = () => {
-  // const initBreakLen = 5;
-  // const initSessionLen = 25;
-  const initBreakLen = 0.05;
-  const initSessionLen = 4 / 60;
+  const initBreakLen = 5;
+  const initSessionLen = 25;
+  // const initBreakLen = 0.05;
+  // const initSessionLen = 4 / 60;
   const initCurrent = 'session';
   const [breakLen, setBreakLen] = useState(initBreakLen);
   const [sessionLen, setSessionLen] = useState(initSessionLen);
@@ -76,7 +76,7 @@ export const FunctionSet = () => {
     if (--time === 0) {
       clearInterval(timerId);
       setStarted(false);
-      // beep().play();
+      beep().play();
       setTimeout(continueToBreakOrSession, 2000);
     }
     // console.log(current, time, timeleft, 'still counting until interval cleared');
