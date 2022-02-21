@@ -8,7 +8,7 @@ import { getMinutesSeconds } from './functions/getMinutesSeconds';
 import './App.css';
 
 function App() {
-  const { current, breakLen, sessionLen, timeLeft, decreaseLen, increaseLen, start_pause, reset } =
+  const { breakLen, sessionLen, current, timeleft, decreaseLen, increaseLen, start_pause, reset } =
     FunctionSet();
 
   return (
@@ -49,7 +49,7 @@ function App() {
           <Label htmlFor="time-left" id="timer-label">
             {current}
           </Label>
-          <Display id="time-left">{getMinutesSeconds(timeLeft)}</Display>
+          <Display id="time-left">{getMinutesSeconds(timeleft)}</Display>
           <Box>
             <Button id="start_stop" onClick={() => start_pause()}>
               start/pause
