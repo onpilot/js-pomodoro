@@ -64,40 +64,28 @@ export const FunctionSet = () => {
     console.clear();
   };
 
+  let timerId;
   const start_pause = () => {
     if (!started) {
+      timerId = setInterval(timer, 1000);
       setStarted(true);
-      const timer = setInterval(() => {
-        countdown(timer);
-        // console.log('still counting until interval cleared');
-      }, 1000);
-      setIntervalId(timer);
+      setIntervalId(timerId);
     } else {
       setStarted(false);
-      clearInterval(intervalId);
+      clearInterval(timerId);
     }
   };
 
   let time = timeLeft;
-  const countdown = (timer) => {
-    setTimeLeft((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+  const timer = () => {
+    setTimeLeft((prevState) => prevState - 1);
     if (--time === 0) {
-      setStarted(false);
-      clearInterval(timer);
-
-      // beep sound
+      clearInterval(timerId);
       beep().play();
-
-      // Automatically continue timer to the next break/session
-      // current === 'session' ? setCurrent('break') : setCurrent('session');
-      // setTimeout(() => {
-      //   current === 'session' ? setTimeLeft(breakLen * 60) : setTimeLeft(sessionLen * 60);
-      //   current === 'session' ? (time = breakLen * 60) : (time = sessionLen * 60);
-      //   start_pause();
-      // }, 2000);
     }
+    // console.log(time, timeLeft, 'still counting until interval cleared');
   };
-  console.log(current, started, timeLeft);
+  // console.log(current, started, timeLeft);
 
   return {
     current,
