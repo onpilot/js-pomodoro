@@ -1,0 +1,12 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 40px;
+}
+.footer a:hover {
+  color: var(--dark-red);
+}

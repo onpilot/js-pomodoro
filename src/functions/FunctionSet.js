@@ -96,6 +96,7 @@ export const FunctionSet = () => {
     breakLen,
     sessionLen,
     current,
+    started,
     timeleft,
     decreaseLen,
     increaseLen,

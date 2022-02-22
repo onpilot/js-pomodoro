@@ -1,7 +1,14 @@
+import styled from 'styled-components';
+
+const StyledLabel = styled.label`
+  color: var(--black);
+  text-transform: capitalize;
+`;
+
 export const Label = (props) => {
   return (
-    <label id={props.id} htmlFor={props.htmlFor}>
+    <StyledLabel id={props.id} htmlFor={props.htmlFor}>
       {props.children}
-    </label>
+    </StyledLabel>
   );
 };
