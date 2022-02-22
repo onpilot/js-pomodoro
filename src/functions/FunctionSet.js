@@ -53,7 +53,7 @@ export const FunctionSet = () => {
     setStarted(false);
     clearInterval(intervalId);
     setIntervalId(null);
-    console.clear();
+    // console.clear();
   };
 
   let timerId;
